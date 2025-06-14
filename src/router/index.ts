@@ -1,4 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+
 
 // 引入文件，动态路由
 const routes = <any>[
@@ -18,7 +19,7 @@ const routes = <any>[
 
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
 // 全局前置守卫 按照创建顺序调用 守卫是异步执行的
