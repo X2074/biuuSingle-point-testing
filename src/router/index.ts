@@ -14,7 +14,36 @@ const routes = <any>[
         name: 'wallet_addEthereumChain',
         component: () => import("../requestView/wallet_addEthereumChain.vue")
     },
-
+    {
+        path: '/wallet_switchEthereumChain',
+        name: 'wallet_switchEthereumChain',
+        component: () => import("../requestView/wallet_switchEthereumChain.vue")
+    },
+    {
+        path: '/wallet_getPermissions',
+        name: 'wallet_getPermissions',
+        component: () => import("../requestView/wallet_getPermissions.vue")
+    },
+    {
+        path: '/wallet_requestPermissions',
+        name: 'wallet_requestPermissions',
+        component: () => import("../requestView/wallet_requestPermissions.vue")
+    },
+    {
+        path: '/personal_sign',
+        name: 'personal_sign',
+        component: () => import("../requestView/personal_sign.vue")
+    },
+    {
+        path: '/wallet_watchAsset',
+        name: 'wallet_watchAsset',
+        component: () => import("../requestView/wallet_watchAsset.vue")
+    },
+    {
+        path: '/wallet_getCallsStatus',
+        name: 'wallet_getCallsStatus',
+        component: () => import("../requestView/wallet_getCallsStatus.vue")
+    },
 ];
 
 

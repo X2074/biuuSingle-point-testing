@@ -18,6 +18,7 @@
                                         ? 'completeness-medium'
                                         : 'completeness-low'
                                 "
+                                @click="toPage(item)"
                                 >{{ item.name }}</el-menu-item
                             >
                         </el-menu-item-group>
@@ -56,11 +57,19 @@
 import { ref, onMounted } from "vue";
 import { JsonRpcApi } from "@/utils/JSONRPCAPI";
 import store from "@/store";
+import { useRouter } from "vue-router";
+let router = useRouter();
 
 store.dispatch("getProviders");
 onMounted(() => {
     console.log(store, "store");
 });
+
+const toPage = (data) => {
+    console.log(121212);
+
+    router.push(data.url);
+};
 </script>
 
 <style scoped>
