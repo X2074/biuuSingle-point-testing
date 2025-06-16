@@ -44,6 +44,16 @@ const routes = <any>[
         name: 'wallet_getCallsStatus',
         component: () => import("../requestView/wallet_getCallsStatus.vue")
     },
+    {
+        path: '/eth_syncing',
+        name: 'eth_syncing',
+        component: () => import("../requestView/eth_syncing.vue")
+    },
+    {
+        path: '/eth_uninstallFilter',
+        name: 'eth_uninstallFilter',
+        component: () => import("../requestView/eth_uninstallFilter.vue")
+    },
 ];
 
 

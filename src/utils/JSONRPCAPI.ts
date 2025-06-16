@@ -246,7 +246,7 @@ export const JsonRpcApi = [
     },
     {
         name: "eth_uninstallFilter",
-        url: "",
+        url: "/eth_uninstallFilter",
         completeness: 0
     }
 ];
