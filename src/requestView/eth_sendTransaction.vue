@@ -1,3 +1,4 @@
+
 <template>
     <div class="request-mthod">
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
@@ -10,23 +11,23 @@
 
         <div class="highlight-form">
             <el-form :model="form" label-width="auto" style="max-width: 600px">
-                <el-form-item label="type">
-                    <el-input v-model="form.type" />
+                <el-form-item label="to">
+                    <el-input v-model="form.to" />
                 </el-form-item>
-                <el-form-item label="address">
-                    <el-input v-model="form.options.address" />
+                <el-form-item label="from">
+                    <el-input v-model="form.from" />
                 </el-form-item>
-                <el-form-item label="address">
-                    <el-input v-model="form.options.address" />
+                <el-form-item label="gas">
+                    <el-input v-model="form.gas" />
                 </el-form-item>
-                <el-form-item label="symbol">
-                    <el-input v-model="form.options.symbol" />
+                <el-form-item label="value">
+                    <el-input v-model="form.value" />
                 </el-form-item>
-                <el-form-item label="decimals">
-                    <el-input v-model="form.options.decimals" />
+                <el-form-item label="data">
+                    <el-input v-model="form.data" />
                 </el-form-item>
-                <el-form-item label="image">
-                    <el-input v-model="form.options.image" />
+                <el-form-item label="gasPrice">
+                    <el-input v-model="form.gasPrice" />
                 </el-form-item>
             </el-form>
 
@@ -50,13 +51,12 @@ import { ref, onMounted, onUnmounted, toRaw, watch } from "vue";
 import store from "@/store";
 
 let form = ref({
-    type: "ERC20",
-    options: {
-        address: "0xb60e8dd61c5d32be8058bb8eb970870f07233155",
-        symbol: "FOO",
-        decimals: 18,
-        image: "https://foo.io/token-image.svg",
-    },
+    to: "0x4B0897b0513FdBeEc7C469D9aF4fA6C0752aBea7",
+    from: "0x4445bbd1f0942857741eeba3b36970390e9cb887",
+    gas: "0x76c0",
+    value: "0x8ac7230489e80000",
+    data: "0x",
+    gasPrice: "0x4a817c800",
 });
 
 let runProviderContent = ref("null");
@@ -82,16 +82,17 @@ watch(
 
         solContent.value = `
 await window.ethereum.request({
-    "method": "wallet_watchAsset",
-    "params": {
-            type:"${form.value.type}",
-            options: {
-                address: "${form.value.options.address}",
-                symbol: "${form.value.options.symbol}",
-                decimals: ${form.value.options.decimals},
-                image: "${form.value.options.image}"
-            }
+    "method": [
+    "eth_sendTransaction",
+    "params": [{
+        to: "${form.value.to}",
+        from: "${form.value.from}",
+        gas: ${form.value.gas},
+        value: "${form.value.value}",
+        data: "${form.value.data}",
+        gasPrice: "${form.value.gasPrice}"
     }
+    ]
 });`;
     },
     { immediate: true, deep: true }
@@ -102,19 +103,19 @@ const runProvider = () => {
     //     throw new Error(`Unsupported network: ${network}`);
     // }
     console.log(132132123132);
-
     provider.value
         .request({
-            method: "wallet_watchAsset",
-            params: {
-                type: form.value.type,
-                options: {
-                    decimals: Number(form.value.options.decimals),
-                    symbol: form.value.options.symbol,
-                    address: form.value.options.address,
-                    image: form.value.options.image,
+            method: "eth_sendTransaction",
+            params: [
+                {
+                    to: form.value.to,
+                    from: form.value.from,
+                    gas: form.value.gas,
+                    value: form.value.value,
+                    data: form.value.data,
+                    gasPrice: form.value.gasPrice,
                 },
-            },
+            ],
         })
         .then((res) => {
             console.log(res, "成功返回的数据");

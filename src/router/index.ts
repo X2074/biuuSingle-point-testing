@@ -45,6 +45,26 @@ const routes = <any>[
         component: () => import("../requestView/wallet_getCallsStatus.vue")
     },
     {
+        path: '/eth_requestAccounts',
+        name: 'eth_requestAccounts',
+        component: () => import("../requestView/eth_requestAccounts.vue")
+    },
+    {
+        path: '/eth_accounts',
+        name: 'eth_accounts',
+        component: () => import("../requestView/eth_accounts.vue")
+    },
+    {
+        path: '/eth_sendTransaction',
+        name: 'eth_sendTransaction',
+        component: () => import("../requestView/eth_sendTransaction.vue")
+    },
+    {
+        path: '/web3_clientVersion',
+        name: 'web3_clientVersion',
+        component: () => import("../requestView/web3_clientVersion.vue")
+    },
+    {
         path: '/eth_syncing',
         name: 'eth_syncing',
         component: () => import("../requestView/eth_syncing.vue")

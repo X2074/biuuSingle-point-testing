@@ -104,6 +104,9 @@ const toPage = (data) => {
     line-height: 40px !important;
     font-weight: 700;
 }
+.is-active {
+    background: #2d8cf057;
+}
 .el-menu-item-group__title {
     display: none !important;
 }
