@@ -65,6 +65,11 @@ const routes = <any>[
         component: () => import("../requestView/web3_clientVersion.vue")
     },
     {
+        path: '/eth_sendRawTransaction',
+        name: 'eth_sendRawTransaction',
+        component: () => import("../requestView/eth_sendRawTransaction.vue")
+    },
+    {
         path: '/eth_syncing',
         name: 'eth_syncing',
         component: () => import("../requestView/eth_syncing.vue")
