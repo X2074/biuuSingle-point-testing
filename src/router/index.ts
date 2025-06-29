@@ -169,6 +169,11 @@ const routes = <any>[
         name: 'eth_uninstallFilter',
         component: () => import("../requestView/eth_uninstallFilter.vue")
     },
+    {
+        path: '/walltChanged',
+        name: 'walltChanged',
+        component: () => import("../requestView/walltChanged.vue")
+    },
 ];
 
 

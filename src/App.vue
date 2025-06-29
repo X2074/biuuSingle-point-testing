@@ -26,15 +26,17 @@
                     <el-sub-menu index="2">
                         <template #title> Ethereum provider API </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1"
-                                >accountsChanged</el-menu-item
+                            <el-menu-item
+                                @click="toPage({ url: '/walltChanged' })"
+                                index="2-1"
+                                >walltChanged</el-menu-item
                             >
-                            <el-menu-item index="2-2"
+                            <!-- <el-menu-item index="2-2"
                                 >chainChanged</el-menu-item
                             >
                             <el-menu-item index="2-2"
                                 >networkChanged</el-menu-item
-                            >
+                            > -->
                         </el-menu-item-group>
                     </el-sub-menu>
                 </el-menu>
