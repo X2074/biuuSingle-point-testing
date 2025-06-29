@@ -96,7 +96,7 @@ export const JsonRpcApi = [
     },
     {
         name: "eth_blockNumber",
-        url: "eth_blockNumber",
+        url: "/eth_blockNumber",
         completeness: 100
     },
     {

@@ -65,6 +65,71 @@ const routes = <any>[
         component: () => import("../requestView/web3_clientVersion.vue")
     },
     {
+        path: '/eth_blockNumber',
+        name: 'eth_blockNumber',
+        component: () => import("../requestView/eth_blockNumber.vue")
+    },
+    {
+        path: '/eth_call',
+        name: 'eth_call',
+        component: () => import("../requestView/eth_call.vue")
+    },
+    {
+        path: '/eth_chainId',
+        name: 'eth_chainId',
+        component: () => import("../requestView/eth_chainId.vue")
+    },
+    {
+        path: '/eth_coinbase',
+        name: 'eth_coinbase',
+        component: () => import("../requestView/eth_coinbase.vue")
+    },
+    {
+        path: '/eth_gasPrice',
+        name: 'eth_gasPrice',
+        component: () => import("../requestView/eth_gasPrice.vue")
+    },
+    {
+        path: '/eth_getBalance',
+        name: 'eth_getBalance',
+        component: () => import("../requestView/eth_getBalance.vue")
+    },
+    {
+        path: '/eth_getBlockByHash',
+        name: 'eth_getBlockByHash',
+        component: () => import("../requestView/eth_getBlockByHash.vue")
+    },
+    {
+        path: '/eth_getBlockByNumber',
+        name: 'eth_getBlockByNumber',
+        component: () => import("../requestView/eth_getBlockByNumber.vue")
+    },
+    {
+        path: '/eth_getBlockTransactionCountByHash',
+        name: 'eth_getBlockTransactionCountByHash',
+        component: () => import("../requestView/eth_getBlockTransactionCountByHash.vue")
+    },
+    {
+        path: '/eth_getBlockTransactionCountByNumber',
+        name: 'eth_getBlockTransactionCountByNumber',
+        component: () => import("../requestView/eth_getBlockTransactionCountByNumber.vue")
+    },
+    {
+        path: '/eth_getCode',
+        name: 'eth_getCode',
+        component: () => import("../requestView/eth_getCode.vue")
+    },
+    {
+        path: '/eth_getStorageAt',
+        name: 'eth_getStorageAt',
+        component: () => import("../requestView/eth_getStorageAt.vue")
+    },
+    {
+        path: '/eth_getTransactionByBlockHashAndIndex',
+        name: 'eth_getTransactionByBlockHashAndIndex',
+        component: () => import("../requestView/eth_getTransactionByBlockHashAndIndex.vue")
+    },
+    {
         path: '/eth_sendRawTransaction',
         name: 'eth_sendRawTransaction',
         component: () => import("../requestView/eth_sendRawTransaction.vue")

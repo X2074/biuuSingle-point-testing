@@ -1,5 +1,10 @@
 <template>
-    <div class="request-mthod">
+    <div
+        class="request-mthod"
+        v-loading="loading"
+        element-loading-text="web3_clientVersion Loading..."
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+    >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
         <h2 class="title">web3_clientVersion</h2>
         <div class="summary">当前客户端版本</div>
@@ -32,6 +37,7 @@ let form = ref({
 let runProviderContent = ref("null");
 let solContent = ref("");
 let provider = ref(null);
+let loading = ref(false);
 onMounted(async () => {
     console.log(store.getters.providers, "store.getters.providers");
     provider.value = store.getters.providers.provider;
@@ -60,18 +66,21 @@ await window.ethereum.request({
 );
 
 const runProvider = () => {
+    loading.value = true;
     provider.value
         .request({
             method: "web3_clientVersion",
             params: [],
         })
         .then((res) => {
-            runProviderContent.value = JSON.stringify(res);
-            console.log(runProviderContent.value, "成功返回的数据");
+            console.log(res, "成功返回的数据");
+            runProviderContent.value = JSON.stringify(res, null, 2);
+            loading.value = false;
         })
         .catch((res) => {
             runProviderContent.value = JSON.stringify(res);
-            console.log(runProviderContent.value, "返回错误的数据");
+            loading.value = false;
+            console.log(res, "返回错误的数据");
         });
 };
 </script>

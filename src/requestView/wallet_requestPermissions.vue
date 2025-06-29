@@ -1,5 +1,10 @@
 <template>
-    <div class="request-mthod">
+    <div
+        class="request-mthod"
+        v-loading="loading"
+        element-loading-text="wallet_requestPermissions Loading..."
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+    >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
         <h2 class="title">wallet_requestPermissions</h2>
         <div class="summary">请求权限，即我们所谓的授权</div>
@@ -34,6 +39,7 @@ let form = ref({
 let runProviderContent = ref("null");
 let solContent = ref("");
 let provider = ref(null);
+let loading = ref(false);
 onMounted(async () => {
     console.log(store.getters.providers, "store.getters.providers");
     provider.value = store.getters.providers.provider;
@@ -66,18 +72,25 @@ await window.ethereum.request({
 );
 
 const runProvider = () => {
+    loading.value = true;
     provider.value
         .request({
-            method: "wallet_getPermissions",
-            params: [],
+            method: "wallet_requestPermissions",
+            params: [
+                {
+                    eth_accounts: {},
+                },
+            ],
         })
         .then((res) => {
-            runProviderContent.value = JSON.stringify(res);
-            console.log(runProviderContent.value, "成功返回的数据");
+            console.log(res, "成功返回的数据");
+            runProviderContent.value = JSON.stringify(res, null, 2);
+            loading.value = false;
         })
         .catch((res) => {
             runProviderContent.value = JSON.stringify(res);
-            console.log(runProviderContent.value, "返回错误的数据");
+            loading.value = false;
+            console.log(res, "返回错误的数据");
         });
 };
 </script>

@@ -1,24 +1,16 @@
+
 <template>
     <div
         class="request-mthod"
         v-loading="loading"
-        element-loading-text="wallet_getCallsStatus Loading..."
+        element-loading-text="eth_coinbase Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
     >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
-        <h2 class="title">wallet_getCallsStatus</h2>
-        <div class="summary">获取多个批次的调用状态</div>
-        <div class="content">
-            获取先前使用 发送的一批调用的状态。由EIP-5792wallet_sendCalls指定。
-        </div>
+        <h2 class="title">eth_coinbase</h2>
+        <div class="summary">返回客户端 coinbase 地址</div>
 
         <div class="highlight-form">
-            <el-form :model="form" label-width="auto" style="max-width: 600px">
-                <el-form-item label="Batch ID">
-                    <el-input v-model="form.id" />
-                </el-form-item>
-            </el-form>
-
             <div class="highlight">
                 <highlightjs autodetect :code="solContent"></highlightjs>
                 <!-- <highlightjs autodetect :code="runProviderContent"></highlightjs> -->
@@ -38,9 +30,7 @@
 import { ref, onMounted, onUnmounted, toRaw, watch } from "vue";
 import store from "@/store";
 
-let form = ref({
-    id: "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331",
-});
+let form = ref({});
 
 let runProviderContent = ref("null");
 let solContent = ref("");
@@ -52,13 +42,23 @@ onMounted(async () => {
     console.log(provider.value, "provider.value");
 });
 
+const addProject = (type) => {
+    form.value[type].push("");
+};
+const moveProject = (type, index) => {
+    form.value[type].splice(index, 1);
+};
+
 watch(
     () => form.value,
     () => {
+        console.log(89465456465);
+
         solContent.value = `
 await window.ethereum.request({
-    "method": "wallet_getCallsStatus",
-    "params": [ ${form.value.id}],
+    "method": [
+    "eth_coinbase",
+    "params": []
 });`;
     },
     { immediate: true, deep: true }
@@ -68,8 +68,8 @@ const runProvider = () => {
     loading.value = true;
     provider.value
         .request({
-            method: "wallet_getCallsStatus",
-            params: [form.value.chainId],
+            method: "eth_coinbase",
+            params: [],
         })
         .then((res) => {
             console.log(res, "成功返回的数据");
@@ -77,7 +77,7 @@ const runProvider = () => {
             loading.value = false;
         })
         .catch((res) => {
-            runProviderContent.value = JSON.stringify(res);
+            runProviderContent.value = JSON.stringify(res, null, 2);
             loading.value = false;
             console.log(res, "返回错误的数据");
         });

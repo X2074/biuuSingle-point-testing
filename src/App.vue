@@ -42,8 +42,26 @@
         </el-aside>
 
         <el-container>
-            <el-header style="text-align: right; font-size: 16px">
-                <div class="toolbar">biuu钱包单点测试</div>
+            <el-header
+                style="text-align: right; font-size: 16px; padding-top: 10px"
+            >
+                <!-- <div class="toolbar" v-for="item in walltList">
+                    {{ item.info.name }}单点测试 -->
+                <el-select
+                    v-model="walletValue"
+                    placeholder="Select"
+                    size="large"
+                    style="width: 240px"
+                    @change="changeWallet"
+                >
+                    <el-option
+                        v-for="item in walltList"
+                        :key="item.info.uuid"
+                        :label="item.info.name"
+                        :value="item.info.uuid"
+                    />
+                </el-select>
+                <!-- </div> -->
             </el-header>
 
             <el-main>
@@ -59,11 +77,32 @@ import { JsonRpcApi } from "@/utils/JSONRPCAPI";
 import store from "@/store";
 import { useRouter } from "vue-router";
 let router = useRouter();
+let walltList = ref([]);
+let walletValue = ref("350670db-19fa-4704-a166-e52e178b59d2");
 
 store.dispatch("getProviders");
+function onAnnouncement(event: any) {
+    walltList.value.push(event.detail);
+    console.log(walltList.value, "调用这个方法啊");
+    // if (event.detail.info.uuid == "350670db-19fa-4704-a166-e52e178b59d2") {
+    //     context.commit("setProviders", event.detail);
+    // }
+    //   if (providers.map(p => p.info.uuid).includes(event.detail.info.uuid)) return
+    //   providers = [...providers, event.detail]
+    //   callback()
+}
+window.addEventListener("eip6963:announceProvider", onAnnouncement);
+window.dispatchEvent(new Event("eip6963:requestProvider"));
 onMounted(() => {
     console.log(store, "store");
 });
+
+const changeWallet = (e) => {
+    console.log(e, "store");
+    let wallletInfo = walltList.value.filter((item) => item.info.uuid == e)[0];
+    localStorage.setItem("walletInfo", JSON.stringify(wallletInfo));
+    location.reload();
+};
 
 const toPage = (data) => {
     console.log(121212);

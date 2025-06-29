@@ -1,5 +1,10 @@
 <template>
-    <div class="request-mthod">
+    <div
+        class="request-mthod"
+        v-loading="loading"
+        element-loading-text="wallet_switchEthereumChain Loading..."
+        element-loading-background="rgba(122, 122, 122, 0.8)"
+    >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
         <h2 class="title">wallet_switchEthereumChain</h2>
         <div class="summary">切换钱包的以太坊链</div>
@@ -40,6 +45,7 @@ let form = ref({
 let runProviderContent = ref("null");
 let solContent = ref("");
 let provider = ref(null);
+let loading = ref(false);
 onMounted(async () => {
     console.log(store.getters.providers, "store.getters.providers");
     provider.value = store.getters.providers.provider;
@@ -72,6 +78,7 @@ await window.ethereum.request({
 );
 
 const runProvider = () => {
+    loading.value = true;
     provider.value
         .request({
             method: "wallet_switchEthereumChain",
@@ -82,11 +89,13 @@ const runProvider = () => {
             ],
         })
         .then((res) => {
-            runProviderContent.value = JSON.stringify(res);
             console.log(res, "成功返回的数据");
+            runProviderContent.value = JSON.stringify(res, null, 2);
+            loading.value = false;
         })
         .catch((res) => {
             runProviderContent.value = JSON.stringify(res);
+            loading.value = false;
             console.log(res, "返回错误的数据");
         });
 };

@@ -3,16 +3,12 @@
     <div
         class="request-mthod"
         v-loading="loading"
-        element-loading-text="wallet_watchAsset Loading..."
+        element-loading-text="eth_call Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
     >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
-        <h2 class="title">wallet_watchAsset</h2>
-        <div class="summary">添加代币，并返回添加状态：成功、失败</div>
-        <div class="content">
-            请求用户在 BIUU
-            中追踪指定的代币。返回一个布尔值，指示代币是否已成功添加。添加后，该代币将与使用传统方法（例如中心化注册表）添加的代币无区别。由EIP-747引入。
-        </div>
+        <h2 class="title">eth_call</h2>
+        <div class="summary">立即执行新的调用，而无需在区块链上创建交易</div>
 
         <div class="highlight-form">
             <el-form :model="form" label-width="auto" style="max-width: 600px">
@@ -22,17 +18,50 @@
                 <el-form-item label="from">
                     <el-input v-model="form.from" />
                 </el-form-item>
+                <el-form-item label="data">
+                    <el-input v-model="form.data" />
+                </el-form-item>
                 <el-form-item label="gas">
                     <el-input v-model="form.gas" />
                 </el-form-item>
                 <el-form-item label="value">
                     <el-input v-model="form.value" />
                 </el-form-item>
-                <el-form-item label="data">
-                    <el-input v-model="form.data" />
-                </el-form-item>
                 <el-form-item label="gasPrice">
                     <el-input v-model="form.gasPrice" />
+                </el-form-item>
+                <el-form-item label="nonce">
+                    <el-input v-model="form.nonce" />
+                </el-form-item>
+                <el-form-item label="maxPriorityFeePerGas">
+                    <el-input v-model="form.maxPriorityFeePerGas" />
+                </el-form-item>
+                <el-form-item label="maxFeePerGas">
+                    <el-input v-model="form.maxFeePerGas" />
+                </el-form-item>
+                <!-- <el-form-item label="accessList">
+                    <el-input v-model="form.accessList" />
+                </el-form-item> -->
+                <el-form-item label="accessList">
+                    <div
+                        v-for="(item, index) in form.accessList"
+                        class="flex-between"
+                    >
+                        <el-input v-model="form.accessList[index]" />
+                        <div class="icon" @click="addProject('accessList')">
+                            +
+                        </div>
+                        <div
+                            v-if="index"
+                            class="icon"
+                            @click="moveProject('accessList', index)"
+                        >
+                            -
+                        </div>
+                    </div>
+                </el-form-item>
+                <el-form-item label="chainId">
+                    <el-input v-model="form.chainId" />
                 </el-form-item>
             </el-form>
 
@@ -56,12 +85,17 @@ import { ref, onMounted, onUnmounted, toRaw, watch } from "vue";
 import store from "@/store";
 
 let form = ref({
-    to: "0x4B0897b0513FdBeEc7C469D9aF4fA6C0752aBea7",
+    to: "0x69498dd54bd25aa0c886cf1f8b8ae0856d55ff13",
     from: "0x4445bbd1f0942857741eeba3b36970390e9cb887",
     gas: "0x76c0",
-    value: "0x8ac7230489e80000",
+    value: "0x1",
     data: "0x",
     gasPrice: "0x4a817c800",
+    nonce: "",
+    maxPriorityFeePerGas: "",
+    maxFeePerGas: "",
+    accessList: [""],
+    chainId: "",
 });
 
 let runProviderContent = ref("null");
@@ -96,7 +130,12 @@ await window.ethereum.request({
         gas: ${form.value.gas},
         value: "${form.value.value}",
         data: "${form.value.data}",
-        gasPrice: "${form.value.gasPrice}"
+        gasPrice: "${form.value.gasPrice}",
+        nonce: "${form.value.nonce}",
+        maxPriorityFeePerGas: "${form.value.maxPriorityFeePerGas}",
+        maxFeePerGas: "${form.value.maxFeePerGas},
+        accessList: "${form.value.accessList}",
+        chainId: "${form.value.chainId}"
     }
     ]
 });`;
@@ -129,7 +168,7 @@ const runProvider = () => {
             loading.value = false;
         })
         .catch((res) => {
-            runProviderContent.value = JSON.stringify(res);
+            runProviderContent.value = JSON.stringify(res, null, 2);
             loading.value = false;
             console.log(res, "返回错误的数据");
         });
