@@ -58,10 +58,6 @@ onMounted(async () => {
     console.log(provider.value, "provider.value");
 });
 
-const requestParams = `{
-  method: "eth_sendRawTransaction",
-  params: ['${form.value.Transaction}'],
-}`;
 watch(
     () => form.value,
     () => {
@@ -76,8 +72,12 @@ await window.ethereum.request({
 
 const runProvider = () => {
     loading.value = true;
+
     provider.value
-        .request(requestParams)
+        .request({
+            method: "eth_sendRawTransaction",
+            params: [form.value.Transaction],
+        })
         .then((res) => {
             console.log(res, "成功返回的数据");
             runProviderContent.value = JSON.stringify(res, null, 2);

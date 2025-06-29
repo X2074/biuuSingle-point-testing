@@ -2,7 +2,7 @@
     <el-container class="layout-container-demo" style="height: 100%">
         <el-aside width="200px">
             <el-scrollbar>
-                <el-menu :default-openeds="['1', '3']">
+                <el-menu :default-openeds="['1']" :default-active="activeNmae">
                     <el-sub-menu index="1">
                         <template #title> JSON-RPC API </template>
                         <el-menu-item-group>
@@ -72,14 +72,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { JsonRpcApi } from "@/utils/JSONRPCAPI";
 import store from "@/store";
 import { useRouter } from "vue-router";
 let router = useRouter();
 let walltList = ref([]);
 let walletValue = ref("350670db-19fa-4704-a166-e52e178b59d2");
-
+let activeNmae = ref("");
 store.dispatch("getProviders");
 function onAnnouncement(event: any) {
     walltList.value.push(event.detail);
@@ -94,9 +94,27 @@ function onAnnouncement(event: any) {
 window.addEventListener("eip6963:announceProvider", onAnnouncement);
 window.dispatchEvent(new Event("eip6963:requestProvider"));
 onMounted(() => {
-    console.log(store, "store");
+    console.log(router.currentRoute.value, "router");
 });
 
+// 流程
+watch(
+    router.currentRoute,
+    (newV) => {
+        let activeUrl: any = newV.name;
+        console.log(newV, "newV");
+
+        JsonRpcApi.forEach((element) => {
+            console.log(element, "element");
+
+            if (element.name == activeUrl) {
+                activeNmae.value = activeUrl;
+                console.log(activeUrl, "indexindexindexindexindex");
+            }
+        });
+    },
+    { immediate: true }
+);
 const changeWallet = (e) => {
     console.log(e, "store");
     let wallletInfo = walltList.value.filter((item) => item.info.uuid == e)[0];

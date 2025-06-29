@@ -130,6 +130,31 @@ const routes = <any>[
         component: () => import("../requestView/eth_getTransactionByBlockHashAndIndex.vue")
     },
     {
+        path: '/eth_getTransactionByHash',
+        name: 'eth_getTransactionByHash',
+        component: () => import("../requestView/eth_getTransactionByHash.vue")
+    },
+    {
+        path: '/eth_getTransactionCount',
+        name: 'eth_getTransactionCount',
+        component: () => import("../requestView/eth_getTransactionCount.vue")
+    },
+    {
+        path: '/eth_getTransactionReceipt',
+        name: 'eth_getTransactionReceipt',
+        component: () => import("../requestView/eth_getTransactionReceipt.vue")
+    },
+    {
+        path: '/eth_getUncleCountByBlockHash',
+        name: 'eth_getUncleCountByBlockHash',
+        component: () => import("../requestView/eth_getUncleCountByBlockHash.vue")
+    },
+    {
+        path: '/eth_getUncleCountByBlockNumber',
+        name: 'eth_getUncleCountByBlockNumber',
+        component: () => import("../requestView/eth_getUncleCountByBlockNumber.vue")
+    },
+    {
         path: '/eth_sendRawTransaction',
         name: 'eth_sendRawTransaction',
         component: () => import("../requestView/eth_sendRawTransaction.vue")
