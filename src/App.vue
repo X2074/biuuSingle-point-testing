@@ -2,7 +2,11 @@
     <el-container class="layout-container-demo" style="height: 100%">
         <el-aside width="200px">
             <el-scrollbar>
-                <el-menu :default-openeds="['1']" :default-active="activeNmae">
+                <el-menu
+                    :default-openeds="['1']"
+                    :unique-opened="true"
+                    :default-active="activeNmae"
+                >
                     <el-sub-menu index="1">
                         <template #title> JSON-RPC API </template>
                         <el-menu-item-group>

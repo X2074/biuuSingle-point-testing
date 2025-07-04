@@ -3,19 +3,19 @@
     <div
         class="request-mthod"
         v-loading="loading"
-        element-loading-text="eth_getTransactionByBlockHashAndIndex Loading..."
+        element-loading-text="eth_getTransactionByBlockNumberAndIndex Loading..."
         element-loading-background="rgba(122, 122, 122, 0.8)"
     >
         <h3 v-if="!provider">provider为空，请刷新页面重试</h3>
         <h2 class="title">eth_getTransactionByBlockNumberAndIndex</h2>
-        <div class="summary">按区块编号和交易索引位置返回有关交易的信息</div>
+        <div class="summary">返回给定地址的存储位置的值</div>
         <div class="content">
             测试区块暂时没有测出数据，使用正式区块是可以的
         </div>
 
         <div class="highlight-form">
             <el-form :model="form" label-width="auto" style="max-width: 600px">
-                <el-form-item label="block hash">
+                <el-form-item label="block number">
                     <el-input v-model="form.address" />
                 </el-form-item>
                 <el-form-item label="Transaction index">
@@ -43,9 +43,8 @@ import { ref, onMounted, onUnmounted, toRaw, watch } from "vue";
 import store from "@/store";
 
 let form = ref({
-    address:
-        "0xed36313f199760b59d491044966820c8c09ae87c5ec5bc921927ab774de83549",
-    storage: "0x0",
+    address: "0x1442e",
+    storage: "0x2",
 });
 
 let runProviderContent = ref("null");
@@ -73,7 +72,7 @@ watch(
         solContent.value = `
 await window.ethereum.request({
     "method": [
-    "eth_getTransactionByBlockHashAndIndex",
+    "eth_getTransactionByBlockNumberAndIndex",
     "params": [
         "${form.value.address}",
         "${form.value.storage}”
@@ -90,7 +89,7 @@ const runProvider = () => {
     loading.value = true;
     provider.value
         .request({
-            method: "eth_getTransactionByBlockHashAndIndex",
+            method: "eth_getTransactionByBlockNumberAndIndex",
             params: [form.value.address, form.value.storage],
         })
         .then((res) => {

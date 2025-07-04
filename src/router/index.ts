@@ -155,6 +155,11 @@ const routes = <any>[
         component: () => import("../requestView/eth_getUncleCountByBlockNumber.vue")
     },
     {
+        path: '/eth_getTransactionByBlockNumberAndIndex',
+        name: 'eth_getTransactionByBlockNumberAndIndex',
+        component: () => import("../requestView/eth_getTransactionByBlockNumberAndIndex.vue")
+    },
+    {
         path: '/eth_sendRawTransaction',
         name: 'eth_sendRawTransaction',
         component: () => import("../requestView/eth_sendRawTransaction.vue")
